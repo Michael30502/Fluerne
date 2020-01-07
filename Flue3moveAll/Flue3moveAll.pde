@@ -1,8 +1,10 @@
 ArrayList<Flue> flueListe = new ArrayList<Flue>();
 float flySize;
+float placementX =0;
+float placementY = 0;
 void setup(){
   size(500,500);
-  flySize = 0;
+  flySize = 1;
 }
 
 void draw(){
@@ -70,10 +72,63 @@ class Flue{
   
   void flyt(){
     //Fluen bliver flyttet
-    distanceFlyttet = distanceFlyttet + 0.5;
-    text(distanceFlyttet,positionX,positionY);
-    if(distanceFlyttet +positionX > 500)
-vinkel -= PI/2;
+    distanceFlyttet = distanceFlyttet + 1;
+   
+        placementX = ((distanceFlyttet *(sin((PI-PI/2-vinkel))/sin(radians(90)))));
+        placementY = sqrt((placementX*placementX)+(distanceFlyttet*distanceFlyttet)-2*placementX*distanceFlyttet*cos(vinkel));
+        if (vinkel > PI )
+        placementY = -placementY;
+     
+    if(placementX+positionX > 495){
+
+    if(vinkel >3)
+    vinkel -= PI/3;
+    else
+    vinkel+= PI/3;
+     positionX = placementX+positionX-7;
+  
+    positionY = placementY+positionY;
+   
+   
+     distanceFlyttet = 0;
+  }
+  if(placementX+positionX < 5){
+    if(vinkel <PI)
+    vinkel -= PI/2;
+    else
+    vinkel+= PI/2;
+    positionX = placementX+positionX+7;
+    positionY = placementY+positionY;
+distanceFlyttet = 0;
+  }
+
+   if(placementY+positionY > 495){
+ 
+          if(PI/2< vinkel)
+     vinkel +=PI/2;
+     else
+     vinkel -=PI/2;
+         positionX = placementX+positionX;
+     positionY = placementY+positionY-7;
+     distanceFlyttet = 0;
+   } 
+   
+   if(placementY+positionY < 5){
+   
+     if(PI*1.5 <vinkel)
+     vinkel +=PI/2;
+     else
+     vinkel -=PI/2;
+         positionX = placementX+positionX;
+     positionY = placementY+positionY+7;
+     distanceFlyttet = 0;
+   }
+  
+       if(vinkel<0)
+     vinkel = 2*PI+vinkel;
+     if(vinkel> 2*PI)
+     vinkel -= 2*PI;
+  
   }
 
   void tegnFlue(){
